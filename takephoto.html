@@ -80,10 +80,27 @@
   <div id="screenshots"><img src="" alt=""></div>
   <input type="button" value="Say hello" id="butOpenFile" />
   <input type=button onClick="parent.location='file:///C:/Users/' " value='Users'>
-
+  <div id="latitude"></div>
+  <div id="accuracy"></div>
   <script>
-    
-   
+    function getLocation() {
+          if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(showPosition, geoError);
+          }
+          else {
+              alert("Please open your position!");
+
+          }
+      }
+      function showPosition(position) {
+          latitude = position.coords.latitude;
+          longitude = position.coords.longitude;//latitude,longitude
+          accuracy = position.coords.accuracy;//latitude,longitude
+          document.getElementById('latitude').innerHTML ='latitude:' + latitude + ',' + longitude;
+          document.getElementById('accuracy').innerHTML ='accuracy:' + accuracy;
+
+      }
+   getLocation();
 //     function onImageChange(event) {
 //     const imageFile = URL.createObjectURL(event.target.files[0]);
 //     createImage(imageFile, convertImage);
