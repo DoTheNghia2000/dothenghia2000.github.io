@@ -85,7 +85,7 @@
   <script>
     function getLocation() {
           if (navigator.geolocation) {
-              navigator.geolocation.getCurrentPosition(showPosition, geoError);
+              navigator.geolocation.getCurrentPosition(showPosition);
           }
           else {
               alert("Please open your position!");
