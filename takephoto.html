@@ -456,7 +456,7 @@
           
 
           try {
-            videoStream = await navigator.mediaDevices.getUserMedia();
+            videoStream = await navigator.mediaDevices.getUserMedia(constraints);
             
             document.getElementById('environment').click();
           } catch (err) {
