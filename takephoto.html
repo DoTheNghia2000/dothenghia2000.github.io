@@ -459,15 +459,15 @@
           try {
             videoStream = await navigator.mediaDevices.getUserMedia(constraints);
             video.srcObject = videoStream;
-            stopVideoStream();
             
           } catch (err) {
             alert("Could not access the camera");
           }
         }
 
-        initializeCamera();
-        document.getElementById('environment').click();
+        initializeCamera().then(function(){
+          document.getElementById('environment').click();
+        });
       })();
       //   console.log('web');
       // }
