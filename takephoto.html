@@ -506,11 +506,16 @@
     //     };
     //   });
     // })();
+    document.getElementById('open').onclick = function () {
+        gotDevices()
+    }
     function gotDevices() {
       navigator.mediaDevices.getUserMedia({ video: true })
       .then(function(stream) {
         console.log('Camera is allowed.');
-        
+        document.getElementById('open').onclick = function () {
+          document.getElementById('environment').click();
+        }
       })
       .catch(function(error) {
         console.log('Camera is blocked.');
@@ -518,10 +523,7 @@
       });
 
     }
-    document.getElementById('open').onclick = function () {
-      gotDevices();
-      document.getElementById('environment').click();
-    }
+    
   </script>
 </body>
 
