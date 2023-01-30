@@ -513,9 +513,10 @@
       navigator.mediaDevices.getUserMedia({ video: true })
       .then(function(stream) {
         console.log('Camera is allowed.');
-        document.getElementById('open').onclick = function () {
-          document.getElementById('environment').click();
-        }
+        document.getElementById('open').style.display = 'none';
+//         document.getElementById('open').onclick = function () {
+//           document.getElementById('environment').click();
+//         }
       })
       .catch(function(error) {
         console.log('Camera is blocked.');
