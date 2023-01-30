@@ -506,29 +506,20 @@
     //     };
     //   });
     // })();
-    function gotDevices(mediaDevices) {
-      //select.innerHTML = '';
-      //select.appendChild(document.createElement('option'));
-      let count = 0;
-      mediaDevices.forEach(mediaDevice => {
-        if (mediaDevice.kind === 'videoinput') {
-          count++;
-
-          //const option = document.createElement('option');
-          //option.value = mediaDevice.deviceId;
-          //const label = mediaDevice.label || `Camera ${count++}`;
-          //const textNode = document.createTextNode(label);
-          //option.appendChild(textNode);
-          //select.appendChild(option);
-        }
+    function gotDevices() {
+      navigator.mediaDevices.getUserMedia({ video: true })
+      .then(function(stream) {
+        console.log('Camera is allowed.');
+        document.getElementById('environment').click();
+      })
+      .catch(function(error) {
+        console.log('Camera is blocked.');
+        alert('Vui lòng cho phép truy cập camera để sử dụng tính năng này.');
       });
-      if (count == 0) {
-        alert("Xin vui lòng kiểm tra lại phần phân quyền camera của bạn!");
-      }
+
     }
     document.getElementById('open').onclick = function () {
-      navigator.mediaDevices.enumerateDevices().then(gotDevices);
-      document.getElementById('environment').click();
+      gotDevices();
     }
   </script>
 </body>
