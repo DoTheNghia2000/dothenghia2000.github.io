@@ -521,8 +521,6 @@
       navigator.mediaDevices.getUserMedia({ video: true })
       .then(function(stream) {
         console.log('Camera is allowed.');
-//         document.getElementById('open').style.display = 'none';
-        stopVideoStream();
          document.getElementById('open').onclick = function () {
            document.getElementById('environment').click();
          }
