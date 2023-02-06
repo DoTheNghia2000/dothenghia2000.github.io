@@ -531,7 +531,12 @@
     document.getElementById('check_location').onclick = function(){
       get_location();
       prmoise_location.then((position)=>{
-        document.querySelector('.location').innerHTML = "Latitude: " + position.coords.latitude +' '+"Longitude: " + position.coords.longitude;
+        if(position.coords.latitude!=null && position.coords.longitude!=null){
+          document.querySelector('.location').innerHTML = "Latitude: " + position.coords.latitude +' '+"Longitude: " + position.coords.longitude;
+        }else{
+          document.querySelector('.location').innerHTML = 'false';
+        }
+        
       }).catch(()=>{
         document.querySelector('.location').innerHTML = 'false';
       })
