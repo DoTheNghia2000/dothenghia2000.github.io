@@ -517,9 +517,9 @@
                                 console.log(true)
                                 resolve(position)
                             },
-                            function () {
+                            function (position) {
                                 console.log(false)
-                                reject()
+                                reject(position)
                             }
                         );
                     } else {
@@ -531,14 +531,17 @@
     document.getElementById('check_location').onclick = function(){
       get_location();
       prmoise_location.then((position)=>{
-        if(position.coords.latitude!=null && position.coords.longitude!=null){
+        if(position.code == null){
           document.querySelector('.location').innerHTML = "Latitude: " + position.coords.latitude +' '+"Longitude: " + position.coords.longitude;
         }else{
           document.querySelector('.location').innerHTML = 'false';
         }
-        
-      }).catch(()=>{
-        document.querySelector('.location').innerHTML = 'false';
+        console.log(position)
+      }).catch((position)=>{
+        if(position.code != null){
+          document.querySelector('.location').innerHTML = 'false';
+        }
+        console.log(position.code)
       })
     }
 
