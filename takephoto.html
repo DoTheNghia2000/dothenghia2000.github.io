@@ -513,9 +513,9 @@
                 prmoise_location = new Promise((resolve, reject) => {
                     if (navigator.geolocation) {
                         navigator.geolocation.getCurrentPosition(
-                            function () {
+                            function (position) {
                                 console.log(true)
-                                resolve()
+                                resolve(position)
                             },
                             function () {
                                 console.log(false)
@@ -530,12 +530,13 @@
             }
     document.getElementById('check_location').onclick = function(){
       get_location();
-      prmoise_location.then(()=>{
-        document.querySelector('.location').innerHTML = 'true';
+      prmoise_location.then((position)=>{
+        document.querySelector('.location').innerHTML = "Latitude: " + position.coords.latitude +' '+"Longitude: " + position.coords.longitude;
       }).catch(()=>{
         document.querySelector('.location').innerHTML = 'false';
       })
     }
+
   </script>
 </body>
 
