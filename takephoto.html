@@ -64,7 +64,7 @@
   <pre id="result"></pre> -->
 
   <button id="open">Open</button>
-  <button id="check_location">check location1</button>
+  <button id="check_location">check location2</button>
   <div class="location"></div>
   <div class="text_size" style="font-size: 20px;">
 
@@ -531,11 +531,12 @@
     document.getElementById('check_location').onclick = function(){
       get_location();
       prmoise_location.then((position)=>{
-        if(position.code == null){
-          document.querySelector('.location').innerHTML = "Latitude: " + position.coords.latitude +' '+"Longitude: " + position.coords.longitude;
-        }else{
-          document.querySelector('.location').innerHTML = 'false';
-        }
+        // if(position.code == null){
+        //   document.querySelector('.location').innerHTML = "Latitude: " + position.coords.latitude +' '+"Longitude: " + position.coords.longitude;
+        // }else{
+        //   document.querySelector('.location').innerHTML = 'false';
+        // }
+        document.querySelector('.location').innerHTML = position;
         console.log(position)
       }).catch((position)=>{
         if(position.code != null){
