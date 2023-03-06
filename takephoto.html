@@ -100,6 +100,14 @@
       }
     })
     asyncs().then((value) => {  console.log(value) })
+    let check;
+    if(/iPhone|iPad|iPod/i.test(navigator.userAgent)){
+      check = 1;
+      alert('check = '+check);
+    }else{
+      check = 2;
+      alert('check = '+check); 
+    }
     // promise.then(() => { console.log('then') }).catch(()=>{console.log('catch')})
 
     //     function onImageChange(event) {
@@ -191,7 +199,7 @@
     const MAX_WIDTH = 720;
     const MAX_HEIGHT = 2160;
     const MIME_TYPE = "image/jpeg";
-    const QUALITY = 0.8;
+    const QUALITY = 0.9;
     function readFile(e) {
       const file = e.target.files[0]; // get the file
       const blobURL = URL.createObjectURL(file);
@@ -277,7 +285,7 @@
 
     // Utility functions for demo purpose
 
-    function displayInfo(label, file) {
+    function  displayInfo(label, file) {
       const p = document.createElement('p');
       p.innerText = `${label} - ${readableBytes(file.size)}`;
       const text_size = document.querySelector('.text_size');
