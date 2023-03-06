@@ -101,12 +101,126 @@
     })
     asyncs().then((value) => {  console.log(value) })
     let check;
+    const MAX_WIDTH = 720;
+    const MAX_HEIGHT = 2160;
+    const MIME_TYPE = "image/jpeg";
+    const QUALITY = 0.9;
     if(/iPhone|iPad|iPod/i.test(navigator.userAgent)){
       check = 1;
       alert('check = '+check);
+      function readFile(e) {
+        const file = e.target.files[0]; // get the file
+        const blobURL = URL.createObjectURL(file);
+        const img = new Image();
+        img.src = blobURL;
+        img.onerror = function () {
+          URL.revokeObjectURL(this.src);
+          // Handle the failure properly
+          console.log("Cannot load image");
+        };
+        img.onload = function () {
+          URL.revokeObjectURL(this.src);
+          const [newWidth, newHeight] = calculateSize(img, MAX_WIDTH, MAX_HEIGHT);
+          const canvas = document.createElement("canvas");
+          const screenshotsContainer = document.querySelector("#screenshots");
+          const text_w_h = document.querySelector('.text_w_h');
+          text_w_h.append('imgWidth: ' + img.naturalWidth + ' , ' + 'imgHeight: ' + img.naturalHeight)
+          text_w_h.appendChild(document.createElement("br"))
+          text_w_h.append('imgWidth: ' + newWidth + ' , ' + 'imgHeight: ' + newHeight)
+          text_w_h.appendChild(document.createElement("br"))
+          canvas.width = newWidth;
+          canvas.height = newHeight;
+          // canvas.width = img.naturalWidth;
+          // canvas.height = img.naturalHeight;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, newWidth, newHeight);
+          // ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+          function fillTextStroked(text, x, y) {
+            ctx.font = "18pt Arial";
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            ctx.strokeText(text, x, y);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(text, x, y);
+          }
+          fillTextStroked("Mã KH - Tên KH: " + "customerCodeName", 10, 20);
+          fillTextStroked("Kênh - Địa chỉ: " + "Sub_RE" + '-' + "Address nghia asfasdfw3rfw asgasgeqfweg adsgadsgsdfg svds gbe w fwe g sdg hwe g sdh bs hsd g vs vweeghwsdh ", 10, 40);
+          fillTextStroked("Tọa độ: " + "geocode", 10, 60);
+          fillTextStroked("CTrình: " + "TradeProgramName", 10, 80);
+          fillTextStroked("Ngày chụp: " + "date", 10, 100);
+          canvas.toBlob(
+            (blob) => {
+              // Handle the compressed image. es. upload or save in local state
+              displayInfo('Original file', file);
+              displayInfo('Compressed file', blob);
+            },
+            MIME_TYPE,
+            QUALITY
+          );
+          const imagee = document.createElement("img");
+          imagee.src = canvas.toDataURL(MIME_TYPE, QUALITY);
+          screenshotsContainer.innerHTML = "";
+          screenshotsContainer.append(imagee);
+        };
+      };
     }else{
       check = 2;
       alert('check = '+check); 
+      function readFile(e) {
+        const file = e.target.files[0]; // get the file
+        const blobURL = URL.createObjectURL(file);
+        const img = new Image();
+        img.src = blobURL;
+        img.onerror = function () {
+          URL.revokeObjectURL(this.src);
+          // Handle the failure properly
+          console.log("Cannot load image");
+        };
+        img.onload = function () {
+          URL.revokeObjectURL(this.src);
+          const [newWidth, newHeight] = calculateSize(img, MAX_WIDTH, MAX_HEIGHT);
+          const canvas = document.createElement("canvas");
+          const screenshotsContainer = document.querySelector("#screenshots");
+          const text_w_h = document.querySelector('.text_w_h');
+          text_w_h.append('imgWidth: ' + img.naturalWidth + ' , ' + 'imgHeight: ' + img.naturalHeight)
+          text_w_h.appendChild(document.createElement("br"))
+          text_w_h.append('imgWidth: ' + newWidth + ' , ' + 'imgHeight: ' + newHeight)
+          text_w_h.appendChild(document.createElement("br"))
+          canvas.width = newWidth;
+          canvas.height = newHeight;
+          // canvas.width = img.naturalWidth;
+          // canvas.height = img.naturalHeight;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, newWidth, newHeight);
+          // ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+          // function fillTextStroked(text, x, y) {
+          //   ctx.font = "18pt Arial";
+          //   ctx.strokeStyle = '#000000';
+          //   ctx.lineWidth = 2;
+          //   ctx.strokeText(text, x, y);
+          //   ctx.fillStyle = '#ffffff';
+          //   ctx.fillText(text, x, y);
+          // }
+          // fillTextStroked("Mã KH - Tên KH: " + "customerCodeName", 10, 20);
+          // fillTextStroked("Kênh - Địa chỉ: " + "Sub_RE" + '-' + "Address nghia asfasdfw3rfw asgasgeqfweg adsgadsgsdfg svds gbe w fwe g sdg hwe g sdh bs hsd g vs vweeghwsdh ", 10, 40);
+          // fillTextStroked("Tọa độ: " + "geocode", 10, 60);
+          // fillTextStroked("CTrình: " + "TradeProgramName", 10, 80);
+          // fillTextStroked("Ngày chụp: " + "date", 10, 100);
+          canvas.toBlob(
+            (blob) => {
+              // Handle the compressed image. es. upload or save in local state
+              displayInfo('Original file', file);
+              displayInfo('Compressed file', blob);
+            },
+            MIME_TYPE,
+            QUALITY
+          );
+          const imagee = document.createElement("img");
+          imagee.src = canvas.toDataURL(MIME_TYPE, QUALITY);
+          screenshotsContainer.innerHTML = "";
+          screenshotsContainer.append(imagee);
+        };
+      };
     }
     // promise.then(() => { console.log('then') }).catch(()=>{console.log('catch')})
 
@@ -196,65 +310,68 @@
     //     }
 
     // }
-    const MAX_WIDTH = 720;
-    const MAX_HEIGHT = 2160;
-    const MIME_TYPE = "image/jpeg";
-    const QUALITY = 0.9;
-    function readFile(e) {
-      const file = e.target.files[0]; // get the file
-      const blobURL = URL.createObjectURL(file);
-      const img = new Image();
-      img.src = blobURL;
-      img.onerror = function () {
-        URL.revokeObjectURL(this.src);
-        // Handle the failure properly
-        console.log("Cannot load image");
-      };
-      img.onload = function () {
-        URL.revokeObjectURL(this.src);
-        const [newWidth, newHeight] = calculateSize(img, MAX_WIDTH, MAX_HEIGHT);
-        const canvas = document.createElement("canvas");
-        const screenshotsContainer = document.querySelector("#screenshots");
-        const text_w_h = document.querySelector('.text_w_h');
-        text_w_h.append('imgWidth: ' + img.naturalWidth + ' , ' + 'imgHeight: ' + img.naturalHeight)
-        text_w_h.appendChild(document.createElement("br"))
-        text_w_h.append('imgWidth: ' + newWidth + ' , ' + 'imgHeight: ' + newHeight)
-        text_w_h.appendChild(document.createElement("br"))
-        canvas.width = newWidth;
-        canvas.height = newHeight;
-        // canvas.width = img.naturalWidth;
-        // canvas.height = img.naturalHeight;
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(img, 0, 0, newWidth, newHeight);
-        // ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
-        function fillTextStroked(text, x, y) {
-          ctx.font = "18pt Arial";
-          ctx.strokeStyle = '#000000';
-          ctx.lineWidth = 2;
-          ctx.strokeText(text, x, y);
-          ctx.fillStyle = '#ffffff';
-          ctx.fillText(text, x, y);
-        }
-        fillTextStroked("Mã KH - Tên KH: " + "customerCodeName", 10, 20);
-        fillTextStroked("Kênh - Địa chỉ: " + "Sub_RE" + '-' + "Address nghia asfasdfw3rfw asgasgeqfweg adsgadsgsdfg svds gbe w fwe g sdg hwe g sdh bs hsd g vs vweeghwsdh ", 10, 40);
-        fillTextStroked("Tọa độ: " + "geocode", 10, 60);
-        fillTextStroked("CTrình: " + "TradeProgramName", 10, 80);
-        fillTextStroked("Ngày chụp: " + "date", 10, 100);
-        canvas.toBlob(
-          (blob) => {
-            // Handle the compressed image. es. upload or save in local state
-            displayInfo('Original file', file);
-            displayInfo('Compressed file', blob);
-          },
-          MIME_TYPE,
-          QUALITY
-        );
-        const imagee = document.createElement("img");
-        imagee.src = canvas.toDataURL(MIME_TYPE, QUALITY);
-        screenshotsContainer.innerHTML = "";
-        screenshotsContainer.append(imagee);
-      };
-    };
+
+
+
+    // const MAX_WIDTH = 720;
+    // const MAX_HEIGHT = 2160;
+    // const MIME_TYPE = "image/jpeg";
+    // const QUALITY = 0.9;
+    // function readFile(e) {
+    //   const file = e.target.files[0]; // get the file
+    //   const blobURL = URL.createObjectURL(file);
+    //   const img = new Image();
+    //   img.src = blobURL;
+    //   img.onerror = function () {
+    //     URL.revokeObjectURL(this.src);
+    //     // Handle the failure properly
+    //     console.log("Cannot load image");
+    //   };
+    //   img.onload = function () {
+    //     URL.revokeObjectURL(this.src);
+    //     const [newWidth, newHeight] = calculateSize(img, MAX_WIDTH, MAX_HEIGHT);
+    //     const canvas = document.createElement("canvas");
+    //     const screenshotsContainer = document.querySelector("#screenshots");
+    //     const text_w_h = document.querySelector('.text_w_h');
+    //     text_w_h.append('imgWidth: ' + img.naturalWidth + ' , ' + 'imgHeight: ' + img.naturalHeight)
+    //     text_w_h.appendChild(document.createElement("br"))
+    //     text_w_h.append('imgWidth: ' + newWidth + ' , ' + 'imgHeight: ' + newHeight)
+    //     text_w_h.appendChild(document.createElement("br"))
+    //     canvas.width = newWidth;
+    //     canvas.height = newHeight;
+    //     // canvas.width = img.naturalWidth;
+    //     // canvas.height = img.naturalHeight;
+    //     const ctx = canvas.getContext("2d");
+    //     ctx.drawImage(img, 0, 0, newWidth, newHeight);
+    //     // ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+    //     function fillTextStroked(text, x, y) {
+    //       ctx.font = "18pt Arial";
+    //       ctx.strokeStyle = '#000000';
+    //       ctx.lineWidth = 2;
+    //       ctx.strokeText(text, x, y);
+    //       ctx.fillStyle = '#ffffff';
+    //       ctx.fillText(text, x, y);
+    //     }
+    //     fillTextStroked("Mã KH - Tên KH: " + "customerCodeName", 10, 20);
+    //     fillTextStroked("Kênh - Địa chỉ: " + "Sub_RE" + '-' + "Address nghia asfasdfw3rfw asgasgeqfweg adsgadsgsdfg svds gbe w fwe g sdg hwe g sdh bs hsd g vs vweeghwsdh ", 10, 40);
+    //     fillTextStroked("Tọa độ: " + "geocode", 10, 60);
+    //     fillTextStroked("CTrình: " + "TradeProgramName", 10, 80);
+    //     fillTextStroked("Ngày chụp: " + "date", 10, 100);
+    //     canvas.toBlob(
+    //       (blob) => {
+    //         // Handle the compressed image. es. upload or save in local state
+    //         displayInfo('Original file', file);
+    //         displayInfo('Compressed file', blob);
+    //       },
+    //       MIME_TYPE,
+    //       QUALITY
+    //     );
+    //     const imagee = document.createElement("img");
+    //     imagee.src = canvas.toDataURL(MIME_TYPE, QUALITY);
+    //     screenshotsContainer.innerHTML = "";
+    //     screenshotsContainer.append(imagee);
+    //   };
+    // };
 
     function calculateSize(img, maxWidth, maxHeight) {
       let width = img.width;
