@@ -191,7 +191,7 @@
     const MAX_WIDTH = 720;
     const MAX_HEIGHT = 2160;
     const MIME_TYPE = "image/jpeg";
-    const QUALITY = 1;
+    const QUALITY = 0.9;
     function readFile(e) {
       const file = e.target.files[0]; // get the file
       const blobURL = URL.createObjectURL(file);
@@ -251,8 +251,8 @@
     function calculateSize(img, maxWidth, maxHeight) {
       let width = img.width;
       let height = img.height;
-      let w = 1800/ img.width;
-      let h = 1800 / img.height;
+      let w = 2000/ img.width;
+      let h = 2000/ img.height;
       if (w > h) {
         width = h * width;
         height = h * height;
