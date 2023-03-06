@@ -163,7 +163,8 @@
           screenshotsContainer.append(imagee);
         };
       };
-    }else{
+    }
+    if(/Android/i.test(navigator.userAgent) == true){
       check = 2;
       alert('check = '+check); 
       function readFile(e) {
