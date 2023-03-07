@@ -120,7 +120,6 @@
         };
         img.onload = function () {
           URL.revokeObjectURL(this.src);
-          alert('check = '+check);
           const [newWidth, newHeight] = calculateSize(img, MAX_WIDTH, MAX_HEIGHT);
           const canvas = document.createElement("canvas");
           const screenshotsContainer = document.querySelector("#screenshots");
@@ -149,6 +148,7 @@
           fillTextStroked("Tọa độ: " + "geocode", 10, 60);
           fillTextStroked("CTrình: " + "TradeProgramName", 10, 80);
           fillTextStroked("Ngày chụp: " + "date", 10, 100);
+          alert('check = '+check);
           canvas.toBlob(
             (blob) => {
               // Handle the compressed image. es. upload or save in local state
