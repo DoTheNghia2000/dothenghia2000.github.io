@@ -120,6 +120,7 @@
         };
         img.onload = function () {
           URL.revokeObjectURL(this.src);
+          alert('check = '+check);
           const [newWidth, newHeight] = calculateSize(img, MAX_WIDTH, MAX_HEIGHT);
           const canvas = document.createElement("canvas");
           const screenshotsContainer = document.querySelector("#screenshots");
@@ -178,6 +179,7 @@
         };
         img.onload = function () {
           URL.revokeObjectURL(this.src);
+          alert('check = '+check);
           const [newWidth, newHeight] = calculateSize(img, MAX_WIDTH, MAX_HEIGHT);
           const canvas = document.createElement("canvas");
           const screenshotsContainer = document.querySelector("#screenshots");
