@@ -8,53 +8,47 @@
 </head>
 
 <body>
-    <div id="root"></div>
-    <script src="/framework/framework.js"></script>
-    <script>
-        const root = document.getElementById('root');
-        const div_id = new Div_html({ id_name: 'id_div' });
-        const div_class = new Div_html({ class_name: 'class_div' });
-        root.appendChild(div_id.create_div());
-        root.appendChild(div_class.create_div());
-        div_id.create_text('id_div');
-        div_class.create_text('class_div');
-        function renderButton(props) {
-            return `
-                <button style="color: ${props.theme === 'dark' ? 'white' : 'black'}">
-                Click me
-                </button>
-            `;
-        }
+<div id="result"></div>
 
-        const myButton = renderButton({ theme: 'dark' });
-        console.log(myButton); // <button style="color: white">Click me</button>
-        root.innerHTML = myButton;
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/quagga/dist/quagga.min.js"></script>
+<script>
+    // Định nghĩa cấu hình cho QuaggaJS
+const config = {
+  inputStream: {
+    name: "Live",
+    type: "LiveStream",
+    target: document.querySelector("#video"),
+    constraints: {
+      facingMode: "environment"
+    }
+  },
+  decoder: {
+    readers: ["ean_reader"]
+  }
+};
 
-    </script>
-</body>
+// Khởi tạo QuaggaJS với cấu hình đã định nghĩa
+Quagga.init(config, function(err) {
+  if (err) {
+    console.log(err);
+    return;
+  }
+  
+  // Bắt đầu quét mã vạch khi QuaggaJS đã sẵn sàng
+  Quagga.start();
+});
 
-</html> -->
+// Xử lý sự kiện khi QuaggaJS nhận được kết quả quét
+Quagga.onDetected(function(result) {
+  // Lấy nội dung được quét và hiển thị lên trang web
+  const code = result.codeResult.code;
+  document.querySelector("#result").textContent = code;
+  
+  // Tạm dừng QuaggaJS để ngừng quét sau khi tìm thấy một mã vạch
+  Quagga.stop();
+});
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <button id="P5sTestcam" onclick="Android.nextScreen('1')">Click đi anh</button>
-    <div id="_innerHTML"></div>
-    <script type="text/javascript">
-        
-
-        function savedata(barcode) {
-            sessionStorage.setItem("barcode", barcode)
-        }
-        function getdata() {
-           document.getElementById('_innerHTML').innerHTML = sessionStorage.getItem("barcode");
-        }
-    </script>
+</script>
 </body>
 </html>
