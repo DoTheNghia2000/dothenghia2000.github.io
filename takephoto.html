@@ -2,61 +2,58 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-<button id="scan_button">Scan</button>
+   <button id="scan_button">Scan</button>
 
-<div id="result"></div>
+   <div id="result"></div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/quagga/dist/quagga.min.js"></script>
-<script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/quagga/dist/quagga.min.js"></script>
+   <script>
 
-    // Định nghĩa cấu hình cho QuaggaJS
-const config = {
-  inputStream: {
-    name: "Live",
-    type: "LiveStream",
-    target: document.querySelector("#video"),
-    constraints: {
-      facingMode: "environment"
-    }
-  },
-  decoder: {
-    readers: ["ean_reader"]
-  }
-};
+      // Định nghĩa cấu hình cho QuaggaJS
+      const config = {
+         inputStream: {
+            name: "Live",
+            type: "LiveStream",
+            target: document.querySelector("#video"),
+            constraints: {
+               facingMode: "environment"
+            }
+         },
+         decoder: {
+            readers: ["ean_reader"]
+         }
+      };
+
+      // Khởi tạo QuaggaJS với cấu hình đã định nghĩa
+      Quagga.init(config, function (err) {
+         if (err) {
+            console.log(err);
+            return;
+         }
+
+         // Bắt đầu quét mã vạch khi QuaggaJS đã sẵn sàng
+         Quagga.start();
+      });
+
+      // Xử lý sự kiện khi QuaggaJS nhận được kết quả quét
+      Quagga.onDetected(function (result) {
+         // Lấy nội dung được quét và hiển thị lên trang web
+         const code = result.codeResult.code;
+         document.querySelector("#result").textContent = code;
+
+         // Tạm dừng QuaggaJS để ngừng quét sau khi tìm thấy một mã vạch
+         Quagga.stop();
+      });
 
 
-
-
-// Bắt sự kiện click trên nút bấm
-document.querySelector("#scan_button").addEventListener("click", function() {
-  // Khởi tạo QuaggaJS và bắt đầu quét mã vạch
-  Quagga.init(config, function(err) {
-    if (err) {
-      console.log(err);
-      return;
-    }
-
-    Quagga.start();
-  });
-
-  // Xử lý sự kiện khi QuaggaJS nhận được kết quả quét
-  Quagga.onDetected(function(result) {
-    const code = result.codeResult.code;
-    document.querySelector("#result").textContent = code;
-    
-    // Tạm dừng QuaggaJS và ẩn video khi tìm thấy một mã vạch
-    Quagga.stop();
-    document.querySelector("#video").style.display = "none";
-  });
-});
-
-</script>
+   </script>
 </body>
+
 </html>
