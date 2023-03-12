@@ -8,8 +8,7 @@
 </head>
 
 <body>
-   <button id="scan_button">Scan</button>
-   <video id="video"></video>
+   <div id="video" width="640" height="480"></div>
    <div id="result"></div>
 
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -37,11 +36,11 @@
             console.log(err);
             return;
          }
-
+         
          // Bắt đầu quét mã vạch khi QuaggaJS đã sẵn sàng
          Quagga.start();
       });
-
+      
       // Xử lý sự kiện khi QuaggaJS nhận được kết quả quét
       Quagga.onDetected(function (result) {
          // Lấy nội dung được quét và hiển thị lên trang web
