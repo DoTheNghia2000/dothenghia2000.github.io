@@ -9,12 +9,19 @@
 
 <body>
    <div id="video" width="640" height="480"></div>
+   <canvas id="canvas" width="640" height="480"></canvas>
    <div id="result"></div>
+   <input type="text" id="input1">
+   <input type="text" id="input2">
 
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
    <script src="https://cdn.jsdelivr.net/npm/quagga/dist/quagga.min.js"></script>
    <script>
-
+      document.getElementById('input1').addEventListener('keypress',()=>{
+         if (event.keyCode === 13) {
+            document.getElementById('result').innerHTML = 'input1';
+         }
+      })
       // Định nghĩa cấu hình cho QuaggaJS
       const config = {
          inputStream: {
@@ -39,23 +46,6 @@
          
          // Bắt đầu quét mã vạch khi QuaggaJS đã sẵn sàng
          Quagga.start();
-         // Hiển thị khung quét mã vạch
-         Quagga.onProcessed(function(result) {
-            var drawingCtx = Quagga.canvas.ctx.overlay;
-            var drawingCanvas = Quagga.canvas.dom.overlay;
-            drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
-            if (result) {
-               if (result.boxes) {
-                  drawingCtx.strokeStyle = "#f00";
-                  result.boxes.forEach(function (box) {
-                     drawingCtx.strokeRect(box.x, box.y, box.width, box.height);
-                  });
-               }
-               if (result.codeResult && result.codeResult.code) {
-                  console.log(result.codeResult.code);
-               }
-            }
-         });
       });
       
       // Xử lý sự kiện khi QuaggaJS nhận được kết quả quét
@@ -64,8 +54,17 @@
          const code = result.codeResult.code;
          document.querySelector("#result").textContent = code;
 
-         // Tạm dừng QuaggaJS để ngừng quét sau khi tìm thấy một mã vạch
+         // Dừng QuaggaJS để ngừng quét sau khi tìm thấy một mã vạch
          Quagga.stop();
+
+         // Vẽ hình chữ nhật bao quanh mã vạch đã quét
+         const canvas = document.querySelector("#canvas");
+         const ctx = canvas.getContext("2d");
+         ctx.beginPath();
+         ctx.lineWidth = "4";
+         ctx.strokeStyle = "green";
+         ctx.rect(result.box[0].x, result.box[0].y, result.box[2].x - result.box[0].x, result.box[2].y - result.box[0].y);
+         ctx.stroke();
       });
 
 
