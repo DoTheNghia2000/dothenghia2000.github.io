@@ -39,6 +39,23 @@
          
          // Bắt đầu quét mã vạch khi QuaggaJS đã sẵn sàng
          Quagga.start();
+         // Hiển thị khung quét mã vạch
+         Quagga.onProcessed(function(result) {
+            var drawingCtx = Quagga.canvas.ctx.overlay;
+            var drawingCanvas = Quagga.canvas.dom.overlay;
+            drawingCtx.clearRect(0, 0, parseInt(drawingCanvas.getAttribute("width")), parseInt(drawingCanvas.getAttribute("height")));
+            if (result) {
+               if (result.boxes) {
+                  drawingCtx.strokeStyle = "#f00";
+                  result.boxes.forEach(function (box) {
+                     drawingCtx.strokeRect(box.x, box.y, box.width, box.height);
+                  });
+               }
+               if (result.codeResult && result.codeResult.code) {
+                  console.log(result.codeResult.code);
+               }
+            }
+         });
       });
       
       // Xử lý sự kiện khi QuaggaJS nhận được kết quả quét
